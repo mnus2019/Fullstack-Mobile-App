@@ -100,7 +100,7 @@ function CoffeeShop(props) {
     featuredTitle={item.name}
   
   >
-     <Image style={styles.image} source={{ uri:item.image }}/>
+     <Image style={styles.image} source={{uri: baseUrl + item.image}}/>
      <Text style={{ margin: 10 }}>{item.name}</Text>
     <Text style={{ margin: 10 }}>$ {item.price}</Text>
     <View style={styles.cardRow}>

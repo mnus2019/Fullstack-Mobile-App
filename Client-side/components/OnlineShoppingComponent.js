@@ -40,8 +40,8 @@ class OnlineShopping extends Component {
             }}
             featured
             onPress={() => navigate(item.title)}
-            imageSrc={{ uri:  item.image }}
-          />
+              imageSrc={{ uri: baseUrl + item.image }}
+                    />
         </Animatable.View>
       );
     };
@@ -60,7 +60,7 @@ class OnlineShopping extends Component {
       <FlatList
         data={this.props.campsites.campsites}
         renderItem={renderDirectoryItem}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item) => item._id.toString()}
       />
     );
   }

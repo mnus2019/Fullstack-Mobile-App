@@ -8,9 +8,10 @@ npm-debug.*
 *.mobileprovision
 *.orig.*
 web-build/
-shared/*/*
+components/images/**/**
 assets/**/**
-public/**/*
-
+public/**/**
+shared/**/**
+com
 # macOS
 .DS_Store

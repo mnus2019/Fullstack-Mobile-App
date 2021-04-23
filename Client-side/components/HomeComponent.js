@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, Animated } from 'react-native';
+import { View, Text, Animated, Image } from 'react-native';
 import { Card } from "react-native-elements";
 import { connect } from "react-redux";
 import { baseUrl } from "../shared/baseUrl";
@@ -29,8 +29,13 @@ function RenderItem(props) {
   }
   if (item) {
     return (
-      <Card featuredTitle={item.name} image={{ uri:item.image }}>
-        <Text style={{ margin: 10 }}>{item.description}</Text>
+      <Card 
+      featuredTitle={item.name}
+       image={{ uri: baseUrl+item.image}}
+       
+       >
+        
+        <Text style={{ margin: 10 }}>{item.text}</Text>
       </Card>
     );
   }
@@ -68,12 +73,12 @@ componentDidMount() {
     return (
       <Animated.ScrollView style={{transform: [{scale: this.state.scaleValue}]}}>
       <RenderItem
-          item={this.props.coffees.coffees.filter(coffee => coffee.campsiteId==1)[0]}
+          item={this.props.coffees.coffees.filter(coffee => coffee.id==1)[0]}
           isLoading={this.props.coffees.isLoading}
           errMess={this.props.coffees.errMess}
       />
         <RenderItem
-          item={this.props.suites.suites.filter(suite => suite.campsiteId==1)[0]}
+          item={this.props.suites.suites.filter(suite => suite.id==1)[0]}
           isLoading={this.props.suites.isLoading}
           errMess={this.props.suites.errMess}
       />

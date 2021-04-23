@@ -66,7 +66,7 @@ class MyCart extends Component {
               title={item.product.name}
              
               leftAvatar={{ source: { uri:baseUrl  + item.product.image } }}
-             
+                           
               onPress={() => navigate("OnlineShopping")}
             />
              <View style={styles.quantity}>

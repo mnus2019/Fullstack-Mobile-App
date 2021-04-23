@@ -31,7 +31,7 @@ class Location extends Component {
                     caption={item.text}
                     featured
                     onPress={() => navigate('LocationInfo', { locationId: item._id })}
-                    imageSrc={{uri: item.image}}
+                    imageSrc={{uri: baseUrl + item.image}}
                 />
                   </Animatable.View>
       );

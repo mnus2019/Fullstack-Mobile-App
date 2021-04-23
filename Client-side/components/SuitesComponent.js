@@ -101,8 +101,8 @@ const [queryText,setQueryText]=useState('');
     featuredTitle={item.name}
       
   >
-      <Image style={styles.image} image={{ uri:item.image }}/>
-     <Text style={{ margin: 10 }}>{item.description}</Text>
+      <Image style={styles.image} source={{uri: baseUrl + item.image}}/>
+     <Text style={{ margin: 10 }}>{item.name}</Text>
     <Text style={{ margin: 10 }}>${item.price}</Text>
     <View style={styles.cardRow}>
       <Icon
