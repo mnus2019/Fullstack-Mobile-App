@@ -7,6 +7,10 @@ import * as Permissions from 'expo-permissions';
 import * as ImageManipulator from 'expo-image-manipulator';
 import { baseUrl } from '../shared/baseUrl';
 
+import { connect } from "react-redux";
+import {
+    postRegister
+  } from "../redux/ActionCreators";
 
 
 
@@ -14,6 +18,11 @@ import { baseUrl } from '../shared/baseUrl';
 
 
 
+
+  
+  const mapDispatchToProps = {
+    postRegister: (creds) => (postRegister(creds))
+  };
 
 
 
@@ -28,9 +37,7 @@ class RegisterTab extends Component {
             password: '',
             firstname: '',
             lastname: '',
-            email: '',
-            remember: false,
-            imageUrl: baseUrl + 'images/logo1.jpg'
+          
         };
     }
 
@@ -100,7 +107,8 @@ class RegisterTab extends Component {
 
 
     handleRegister() {
-        console.log(JSON.stringify(this.state));
+        //console.log(JSON.stringify(this.state));
+        this.props.postRegister(this.state);
         if (this.state.remember) {
             SecureStore.setItemAsync('userinfo', JSON.stringify(
                 {username: this.state.username, password: this.state.password}))
@@ -162,14 +170,7 @@ class RegisterTab extends Component {
                         containerStyle={styles.formInput}
                         leftIconContainerStyle={styles.formIcon}
                     />
-                    <Input
-                        placeholder='Email'
-                        leftIcon={{type: 'font-awesome', name: 'envelope-o'}}
-                        onChangeText={email => this.setState({email})}
-                        value={this.state.email}
-                        containerStyle={styles.formInput}
-                        leftIconContainerStyle={styles.formIcon}
-                    />
+                 
                     <CheckBox
                         title='Remember Me'
                         center
@@ -237,4 +238,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default RegisterTab;
+export default connect(null, mapDispatchToProps)(RegisterTab);

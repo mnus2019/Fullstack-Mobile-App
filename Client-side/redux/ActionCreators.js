@@ -412,3 +412,52 @@ export const loginError = message => {
       message
   }
 }
+
+
+export const postRegister = (creds) => (dispatch) => {
+  
+  dispatch(requestRegister())
+  
+  return fetch(baseUrl + "users/signup", {
+    method: "POST",
+    body: JSON.stringify(creds),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then(
+      (response) => {
+        if (response.ok) {
+          return response;
+        } else {
+          const error = new Error(
+            `Error ${response.status}: ${response.statusText}`
+          );
+          error.response = response;
+          throw error;
+        }
+      },
+      (error) => {
+        throw error;
+      }
+    )
+    .then((response) => response.json(),
+    console.log('Registration Successful!'))
+    .then((response) => dispatch(addRegister(response))
+    )
+   
+      .catch(error => dispatch(RegisterError(error.message)))
+   
+};
+export const addRegister = () => ({
+  type: ActionTypes.REGISTER_SUCCESS
+  
+});
+export const requestRegister = () => ({
+  type: ActionTypes.REGISTER_REQUEST
+  
+});
+export const RegisterError = () => ({
+  type: ActionTypes.REGISTER_FAILURE
+  
+});

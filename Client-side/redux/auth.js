@@ -32,19 +32,27 @@ export const Auth = (state = {
                 isAuthenticated: false,
                 errMess: action.message
             };
-        case ActionTypes.LOGOUT_REQUEST:
-            return {...state,
-                isLoading: true,
-                isAuthenticated: true
-            };
-        case ActionTypes.LOGOUT_SUCCESS:
-            return {...state,
-                isLoading: false,
-                isAuthenticated: false,
-                token: '',
-                user: null,
-                regUser: false
-            };
+        
+            case ActionTypes.REGISTER_REQUEST:
+                return {...state,
+                    isLoading: true,
+                    isAuthenticated: false,
+
+                };
+            case ActionTypes.REGISTER_FAILURE:
+                return {...state,
+                    isLoading: false,
+                    isAuthenticated: false,
+                    errMess: action.message
+                };
+            
+            case ActionTypes.REGISTER_SUCCESS:
+                return {...state,
+                    isLoading: false,
+                    isAuthenticated: true,
+                    token: '',                   
+                    regUser: true
+                };
             
         default:
             return state
