@@ -1,6 +1,6 @@
 const cors = require("cors");
 
-const whitelist = ["http://localhost:3000","http://localhost:3001"];
+const whitelist = ["http://192.168.254.16:3000"];
 const corsOptionsDelegate = (req, callback) => {
   let corsOptions;
   console.log(req.header("Origin"));

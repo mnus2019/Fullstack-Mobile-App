@@ -1,5 +1,8 @@
 import * as ActionTypes from "./ActionTypes";
 import { baseUrl } from "../shared/baseUrl";
+import {Alert} from "react-native";
+import * as SecureStore from 'expo-secure-store';
+
 
 export const fetchCoffees = () => (dispatch) => {
   return fetch(baseUrl +'coffees')
@@ -345,3 +348,67 @@ export const addPartners = (partners) => ({
   type: ActionTypes.ADD_PARTNERS,
   payload: partners,
 });
+
+export const loginUser = creds => dispatch => {
+
+  
+  // We dispatch requestLogin to kickoff the call to the API
+  dispatch(requestLogin(creds))
+
+  return fetch(baseUrl + "users/login", {
+      method: 'POST',
+      headers: { 
+          'Content-Type':'application/json' 
+      },
+      body: JSON.stringify(creds)
+  })
+  .then(response => {
+          if (response.ok) {
+              return response;
+          } else {
+              const error = new Error(`Error ${response.status}: ${response.statusText}`);
+              error.response = response;
+              throw error;
+          }
+      },
+      error => { throw error; }
+  )
+  .then(response => response.json())
+  .then(response => {
+      if (response.success) {
+          // If login was successful, set the token in local storage
+          SecureStore.setItemAsync('token', response.token);
+          SecureStore.setItemAsync('creds', JSON.stringify(creds));
+          Alert.alert("Alert", "Thank you for Login!!!" + response.token );
+        
+          // Dispatch the success action
+          // dispatch(fetchFavorites());
+          dispatch(receiveLogin(response));
+      } else {
+          const error = new Error('Error ' + response.status);
+          error.response = response;
+          throw error;
+      }
+  })
+  .catch(error => dispatch(loginError(error.message)))
+};
+export const requestLogin = creds => {
+  return {
+      type: ActionTypes.LOGIN_REQUEST,
+      creds
+  }
+}
+
+export const receiveLogin = response => {
+  return {
+      type: ActionTypes.LOGIN_SUCCESS,
+      token: response.token
+  }
+}
+
+export const loginError = message => {
+  return {
+      type: ActionTypes.LOGIN_FAILURE,
+      message
+  }
+}

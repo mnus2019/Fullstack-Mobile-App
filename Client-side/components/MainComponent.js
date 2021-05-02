@@ -16,7 +16,8 @@ import Member from "./MemberComponent";
 import SuiteShop from "./SuitesComponent";
 import ClotheShop from "./ClothesComponent";
 import MyCart from "./MyCartComponent";
-import Login from "./LoginComponent";
+import LoginTab from "./LoginComponent";
+import RegisterTab from "./RegisterComponent";
 import LocationInfo from "./LocationInfoComponent";
 import Location from "./LocationComponent";
 import { Icon } from "react-native-elements";
@@ -229,7 +230,7 @@ const OnlineShoppingNavigator = createStackNavigator(
 );
 const LoginNavigator = createStackNavigator(
   {
-    Login: { screen: Login },
+    LoginTab: { screen: LoginTab },
   },
   {
     navigationOptions: ({ navigation }) => ({
@@ -251,6 +252,32 @@ const LoginNavigator = createStackNavigator(
     }),
   }
 );
+
+const RegisterNavigator = createStackNavigator(
+  {
+    RegisterTab: { screen: RegisterTab },
+  },
+  {
+    navigationOptions: ({ navigation }) => ({
+      headerStyle: {
+        backgroundColor: '#90ee90',
+      },
+      headerTintColor: "#fff",
+      headerTitleStyle: {
+        color: "#fff",
+      },
+      headerLeft: (
+        <Icon
+        name="align-justify"
+          type="font-awesome"
+          iconStyle={styles.stackIcon}
+          onPress={() => navigation.toggleDrawer()}
+        />
+      ),
+    }),
+  }
+);
+
 
 const CustomDrawerContentComponent = (props) => (
   <ScrollView>
@@ -282,6 +309,19 @@ const MainNavigator = createDrawerNavigator(
         drawerIcon: ({ tintColor }) => (
           <Icon
             name="sign-in"
+            type="font-awesome"
+            size={24}
+            color={tintColor}
+          />
+        ),
+      },
+    },
+    Register: {
+      screen: RegisterNavigator,
+      navigationOptions: {
+        drawerIcon: ({ tintColor }) => (
+          <Icon
+            name="user-plus"
             type="font-awesome"
             size={24}
             color={tintColor}

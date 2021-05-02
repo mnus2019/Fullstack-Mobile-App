@@ -12,6 +12,7 @@ import { comments } from './comments';
 import { cartItems } from './cartItems';
 import { favorites } from './favorites';
 import { partners } from './about';
+import { Auth } from './auth';
 
 const config = {
   key: 'root',
@@ -30,7 +31,8 @@ export const ConfigureStore = () => {
       clothes:clothes,
       cartItems:cartItems,
       favorites: favorites,
-      partners:partners
+      partners:partners,
+      auth: Auth,
           
     }),
     compose(
