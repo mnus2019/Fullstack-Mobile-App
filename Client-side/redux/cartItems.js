@@ -23,8 +23,9 @@ export const cartItems = (state = { isLoading: true,
 
             }
         case ActionTypes.REMOVE_FROM_CART:
-            return {...state,cartItems: state.cartItems.filter((item) =>
-              item === action.payload && action.payload.qty > 1 ? action.payload.qty-- :   item !== action.payload
+            return {...state,cartItems: state.cartItems.filter((item,i) =>
+              item === action.payload && action.payload.qty > 1 ? item.qty - 1 :   item !== action.payload
+             
             )}
 
         case ActionTypes.CART_FAILED:

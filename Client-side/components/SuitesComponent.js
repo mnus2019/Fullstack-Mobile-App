@@ -108,10 +108,19 @@ const [queryText,setQueryText]=useState('');
       <Icon
         name="plus" 
         type="font-awesome"
-        color="#f50"
+        color="#0F0"
         raised
         reverse
         onPress={() =>    props.addItemToCart(item)}
+       
+      />
+       <Icon
+        name="minus" 
+        type="font-awesome"
+        color="#F00"
+        raised
+        reverse
+        onPress={() =>    props.deleteItemFromCart(item)}
        
       />
        <Icon

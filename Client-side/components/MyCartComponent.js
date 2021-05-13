@@ -87,7 +87,7 @@ class MyCart extends Component {
         <FlatList
         data={this.props.cartItems.cartItems}
         renderItem={renderFavoriteItem}
-        keyExtractor={(item) => item.product.id.toString()}
+        keyExtractor={item => item.product._id.toString()}
       />
       <View style={{ margin: 10 }}>
       <Button

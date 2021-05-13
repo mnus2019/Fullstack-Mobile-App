@@ -9,15 +9,18 @@ import { baseUrl } from '../shared/baseUrl';
 import Loading from './LoadingComponent';
 import ShoppingCartIcon from './ShoppingCartIconComponent';
 import { addItemToCart ,deleteItemFromCart} from '../redux/ActionCreators'; 
+import * as SecureStore from 'expo-secure-store';
 
 
 const mapDispatchToProps = {
-  addItemToCart: (item) =>
-    addItemToCart(item),
-    deleteItemFromCart: (item) =>
-    deleteItemFromCart(item)
+  addItemToCart: (item) => addItemToCart(item),
+    deleteItemFromCart: (item) => deleteItemFromCart(item)
   
 };
+
+
+
+
 
 const mapStateToProps = state => {
   return {
@@ -86,6 +89,10 @@ function CoffeeShop(props) {
       );
     };
   
+
+    // clearAsyncStorage = async() => {
+    //   SecureStore.clear();
+    // }
    
   
     const renderDirectoryItem = ({ item }) => {
@@ -104,13 +111,22 @@ function CoffeeShop(props) {
      <Text style={{ margin: 10 }}>{item.name}</Text>
     <Text style={{ margin: 10 }}>$ {item.price}</Text>
     <View style={styles.cardRow}>
-      <Icon
+    <Icon
         name="plus" 
+        type="font-awesome"
+        color="#0F0"
+        raised
+        reverse
+        onPress={() =>    props.addItemToCart(item)}
+       
+      />
+        <Icon
+        name="minus" 
         type="font-awesome"
         color="#f50"
         raised
         reverse
-        onPress={() =>    props.addItemToCart(item)}
+        onPress={() =>    props.deleteItemFromCart(item,item.indexof)}
        
       />
         <Icon

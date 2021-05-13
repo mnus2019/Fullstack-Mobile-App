@@ -50,7 +50,7 @@ const mapDispatchToProps = {
   fetchLocations,
 };
 
-const bottomNav = createBottomTabNavigator(
+const BottomNav = createBottomTabNavigator(
   {
       Login: MyCart,
       Register: OnlineShopping
@@ -406,6 +406,10 @@ const MainNavigator = createDrawerNavigator(
   {
     drawerBackgroundColor: "green",
     contentComponent: CustomDrawerContentComponent,
+  },
+  {
+    
+    contentComponent: BottomNav,
   }
 );
 const Main=(props)=>  {

@@ -58,7 +58,7 @@ function RenderComments({ comments }) {
         <FlatList
           data={comments}
           renderItem={renderCommentItem}
-          keyExtractor={(item) => item.id.toString()}
+          keyExtractor={(item) => item._id.toString()}
         />
       </Card>
     </Animatable.View>
@@ -240,11 +240,12 @@ class LocationInfo extends Component {
 
   render() {
     const locationId = this.props.navigation.getParam("locationId");
+    const campsiteId = this.props.navigation.getParam("campsiteId");
     const location = this.props.locations.locations.filter(
-      (location) => location.id === locationId
+      (location) => location._id === locationId
     )[0];
     const comments = this.props.comments.comments.filter(
-      (comment) => comment.campsiteId === locationId
+      (comment) => comment.campsiteId === 0
     );
     return (
       <ScrollView>
