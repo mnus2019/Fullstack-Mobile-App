@@ -26,7 +26,7 @@ class Location extends Component {
     const renderDirectoryItem = ({ item }) => {
       return (
         <Animatable.View animation='fadeInRightBig' duration={2000}>
-        <Tile
+        <Tile 
                     title={item.name}
                     caption={item.text}
                     featured

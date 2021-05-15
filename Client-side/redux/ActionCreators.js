@@ -298,6 +298,30 @@ export const deleteCart = (item) => ({
   payload: item,
 });
 
+
+
+export const addApiItemToCart = ( item) => (dispatch) => {
+
+  dispatch(addApiCart(item))
+};
+
+export const addApiCart = (item) => ({
+  type: ActionTypes.ADD_TO_API_CART,
+  payload: item,
+});
+
+
+export const deleteApiItemFromCart = ( item) => (dispatch) => {
+
+  dispatch(deleteApiCart(item))
+};
+
+export const deleteApiCart = (item) => ({
+  type: ActionTypes.REMOVE_FROM_API_CART,
+  payload: item,
+});
+
+
 export const postFavorite = (campsiteId) => (dispatch) => {
   setTimeout(() => {
     dispatch(addFavorite(campsiteId));

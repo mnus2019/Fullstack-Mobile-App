@@ -5,12 +5,12 @@ import * as Animatable from 'react-native-animatable';
 import { connect } from 'react-redux';
 import Loading from './LoadingComponent';
 import ShoppingCartIcon from './ShoppingCartIconComponent';
-import { addItemToCart, deleteItemFromCart } from '../redux/ActionCreators'; 
+import { addApiItemToCart, deleteApiItemFromCart } from '../redux/ActionCreators'; 
 
 const mapDispatchToProps = {
-  addItemToCart: (item) =>
-    addItemToCart(item),
-    deleteItemFromCart: (item) => deleteItemFromCart(item),
+  addApiItemToCart: (item) =>
+    addApiItemToCart(item),
+    deleteApiItemFromCart: (item) => deleteApiItemFromCart(item),
   
 };
 
@@ -104,7 +104,7 @@ function ClotheShop (props){
         color="#0F0"
         raised
         reverse
-        onPress={() =>    props.addItemToCart(item)}
+        onPress={() =>    props.addApiItemToCart(item)}
        
       />
        <Icon
@@ -113,7 +113,7 @@ function ClotheShop (props){
         color="#F00"
         raised
         reverse
-        onPress={() =>    props.deleteItemFromCart(item)}
+        onPress={() =>    props.deleteApiItemFromCart(item)}
        
       />
         <Icon

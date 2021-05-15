@@ -126,7 +126,7 @@ function CoffeeShop(props) {
         color="#f50"
         raised
         reverse
-        onPress={() =>    props.deleteItemFromCart(item,item.indexof)}
+        onPress={() =>    props.deleteItemFromCart(item)}
        
       />
         <Icon
@@ -178,6 +178,7 @@ function CoffeeShop(props) {
     <FlatList 
    data={filteredCoffees}
    renderItem={renderDirectoryItem}
+
    keyExtractor={item => item._id.toString()}
 />
 </View>

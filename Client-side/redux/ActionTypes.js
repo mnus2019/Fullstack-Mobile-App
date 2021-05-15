@@ -24,7 +24,10 @@ export const COMMENTS_FAILED = 'COMMENTS_FAILED';
 
 export const ADD_TO_CART = 'ADD_TO_CART';
 export const REMOVE_FROM_CART = 'REMOVE_FROM_CART';
+export const ADD_TO_API_CART = 'ADD_TO_API_CART';
+export const REMOVE_FROM_API_CART = 'REMOVE_FROM_API_CART';
 export const CART_FAILED = 'CART_FAILED';
+
 
 export const ADD_FAVORITE = 'ADD_FAVORITE';
 export const DELETE_FAVORITE = 'DELETE_FAVORITE';
