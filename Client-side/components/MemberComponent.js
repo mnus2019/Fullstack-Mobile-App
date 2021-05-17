@@ -15,8 +15,8 @@ import { Input,Rating } from "react-native-elements";
 import { postComment } from "../redux/ActionCreators";
 
 const mapDispatchToProps = {
-  postComment: ( rating, firstName, lastName) =>
-    postComment( rating, firstName, lastName),
+  postComment: (campsiteId, rating, firstName, comment) =>
+    postComment(campsiteId, rating, firstName, comment),
 };
 
 Member.navigationOptions = {
@@ -26,6 +26,7 @@ Member.navigationOptions = {
 function Member(props){ 
 
   const [firstName,setFirstName]=useState('');
+  const [campsiteId,setCampsiteId]=useState("");
   const [campers,setCampers]=useState(1);
   const [lastName,setLastName]=useState('');
   const [comment,setComment]=useState('');
@@ -48,12 +49,14 @@ function Member(props){
       return;
     }
   
-    props.postComment(rating,firstName, lastName);
+    props.postComment(campsiteId, rating,firstName, comment);
     Alert.alert("Alert", "Thank you for being a Member!!!");
+    props.navigation.navigate("Home");
   };
 
   resetForm=()=> {
     setFirstName('');
+    setCampsiteId('');
     setLastName('');
     setComment('');
    
@@ -71,6 +74,15 @@ function Member(props){
               onFinishRating={(rating) => setRating( rating )}
               style={{ paddingVertical: 10,margin: 10 ,backgroundColor: "#FFFFFF",}}
             />
+             <Input
+            style={{ height: 40, borderColor: "blue", borderWidth: 1 }}
+            placeholder="Campsite Id"
+            leftIcon={{ type: "font-awesome", name: "user-o" }}
+            leftIconContainerStyle={{ paddingRight: 10 }}
+            onChangeText={(id) => setCampsiteId( id )}
+            value={campsiteId}
+            maxLength={16}
+          />
           <Input
             style={{ height: 40, borderColor: "blue", borderWidth: 1 }}
             placeholder="First Name"

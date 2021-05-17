@@ -1,19 +1,23 @@
 import React, { Component } from 'react';
-import { View, StyleSheet} from 'react-native';
+import { View, StyleSheet,Alert} from 'react-native';
 import { Input, CheckBox, Button, Icon } from 'react-native-elements';
 import * as SecureStore from 'expo-secure-store';
 
 import { connect } from "react-redux";
 import {
-    loginUser
+    loginUser,logoutUser
   } from "../redux/ActionCreators";
   
   const mapDispatchToProps = {
-    loginUser: (creds) => (loginUser(creds))
+    loginUser: (creds) => (loginUser(creds)),
+    logoutUser: () => (logoutUser())
   };
 
-
-
+  const mapStateToProps = state => {
+    return {
+        auth: state.auth
+    };
+  };
 
 
 
@@ -25,7 +29,9 @@ class LoginTab extends Component {
         this.state = {
             username: '',
             password: '',
-            remember: false
+            remember: false,
+            success:false
+
         };
     }
 
@@ -40,16 +46,42 @@ class LoginTab extends Component {
         )
     }
 
-     handleSubmit =() =>{
+
+    handleLogout =async() =>{
+      await  this.props.logoutUser();
+      await  console.log(this.props.auth.isAuthenticated)
+
+    }
+
+     handleSubmit =async() =>{
          
-    this.props.loginUser({ username:this.state.username,       
+       await this.props.loginUser({ username:this.state.username,       
         password:this.state.password}
          
         );
-      
+       await  console.log(this.props.auth.isAuthenticated)
+       
+        resetForm=()=> { if (this.props.auth.isAuthenticated){
+            this.setState({
+                username:" ",
+                password:" "
+            })
+            Alert.alert("ALERT","\nLOGIN SUCCESS");
+          
+          
+            this.props.navigation.navigate("Home")
+           }else{
+                    
+            Alert.alert("ERROR", "INCORRECT PASSWORD OR USERNAME\nPLEASE TRY AGAIN!!!"  );
+
+           }
+        }
+   await resetForm();
+         
                   
       }
-     
+
+         
 
     
     componentDidMount() {
@@ -94,7 +126,9 @@ class LoginTab extends Component {
                 />
                 <View style={styles.formButton}>
                     <Button
-                        onPress={() => this.handleSubmit()
+                        onPress={() =>{ this.handleSubmit();
+                            }
+
                           
                         }
                         title='Login'
@@ -109,6 +143,28 @@ class LoginTab extends Component {
                         buttonStyle={{backgroundColor: '#0000ff'}}
                     />
                 </View>
+
+               
+                <View style={styles.formButton}>
+                    <Button
+                        onPress={() =>{ this.handleLogout();
+                            }
+
+                          
+                        }
+                        title='LogOut'
+                        icon={
+                            <Icon
+                                name='sign-out'
+                                type='font-awesome'
+                                color='#fff'
+                                iconStyle={{marginRight: 10}}
+                            />
+                        }
+                        buttonStyle={{backgroundColor: '#0000ff'}}
+                    />
+                </View>
+
                 <View style={styles.formButton}>
                     <Button
                        onPress={() => this.props.navigation.navigate('Register')
@@ -164,4 +220,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default connect(null, mapDispatchToProps)(LoginTab);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginTab);

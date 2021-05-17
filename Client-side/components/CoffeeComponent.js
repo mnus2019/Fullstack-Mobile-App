@@ -90,9 +90,7 @@ function CoffeeShop(props) {
     };
   
 
-    // clearAsyncStorage = async() => {
-    //   SecureStore.clear();
-    // }
+ 
    
   
     const renderDirectoryItem = ({ item }) => {

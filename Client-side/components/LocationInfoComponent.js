@@ -240,7 +240,6 @@ class LocationInfo extends Component {
 
   render() {
     const locationId = this.props.navigation.getParam("locationId");
-    const campsiteId = this.props.navigation.getParam("campsiteId");
     const location = this.props.locations.locations.filter(
       (location) => location._id === locationId
     )[0];

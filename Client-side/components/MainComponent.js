@@ -37,7 +37,7 @@ import {
   fetchCampsites,
   fetchClothes,
   fetchLocations,
-  fetchPartners
+  fetchPartners,logoutUser
 } from "../redux/ActionCreators";
 
 const mapDispatchToProps = {
@@ -48,7 +48,17 @@ const mapDispatchToProps = {
   fetchCampsites,
   fetchClothes,
   fetchLocations,
+  logoutUser
+
 };
+const mapStateToProps = state => {
+  return {
+      auth: state.auth
+  };
+};
+
+
+
 
 const BottomNav = createBottomTabNavigator(
   {
@@ -86,6 +96,13 @@ const HomeNavigator = createStackNavigator(
           iconStyle={styles.stackIcon}
           onPress={() => navigation.toggleDrawer()}
         />
+      ),  headerRight: (
+        <Icon
+        name="sign-out"
+          type="font-awesome"
+          iconStyle={styles.stackIcon}
+          onPress={() =>this.handleLogout()}
+        />
       ),
     }),
   }
@@ -109,6 +126,13 @@ const CartScreenNavigator = createStackNavigator(
           type="font-awesome"
           iconStyle={styles.stackIcon}
           onPress={() => navigation.toggleDrawer()}
+        />
+      ),  headerRight: (
+        <Icon
+        name="sign-out"
+          type="font-awesome"
+          iconStyle={styles.stackIcon}
+          onPress={() =>this.handleLogout()}
         />
       ),
     }),
@@ -136,6 +160,13 @@ const AboutNavigator = createStackNavigator(
           iconStyle={styles.stackIcon}
           onPress={() => navigation.toggleDrawer()}
         />
+      ),  headerRight: (
+        <Icon
+        name="sign-out"
+          type="font-awesome"
+          iconStyle={styles.stackIcon}
+          onPress={() =>this.handleLogout()}
+        />
       ),
     }),
   }
@@ -151,6 +182,13 @@ const LocationNavigator = createStackNavigator(
             type="font-awesome"
             iconStyle={styles.stackIcon}
             onPress={() => navigation.toggleDrawer()}
+          />
+        ),  headerRight: (
+          <Icon
+          name="sign-out"
+            type="font-awesome"
+            iconStyle={styles.stackIcon}
+            onPress={() =>this.handleLogout()}
           />
         ),
       }),
@@ -190,7 +228,15 @@ const MemberNavigator = createStackNavigator(
           iconStyle={styles.stackIcon}
           onPress={() => navigation.toggleDrawer()}
         />
+      ),  headerRight: (
+        <Icon
+        name="sign-out"
+          type="font-awesome"
+          iconStyle={styles.stackIcon}
+          onPress={() =>this.handleLogout()}
+        />
       ),
+      
     }),
   }
 );
@@ -206,6 +252,14 @@ const OnlineShoppingNavigator = createStackNavigator(
             type="font-awesome"
             iconStyle={styles.stackIcon}
             onPress={() => navigation.toggleDrawer()}
+          />
+        ),
+        headerRight: (
+          <Icon
+          name="sign-out"
+            type="font-awesome"
+            iconStyle={styles.stackIcon}
+            onPress={() =>this.handleLogout()}
           />
         ),
       }),
@@ -249,6 +303,7 @@ const LoginNavigator = createStackNavigator(
           onPress={() => navigation.toggleDrawer()}
         />
       ),
+    
     }),
   }
 );
@@ -421,6 +476,14 @@ const Main=(props)=>  {
     props.fetchLocations();
     props.fetchComments();
     props.fetchPartners();
+
+
+    handleLogout =async() =>{
+      await  props.logoutUser();
+      await  console.log(props.auth.isAuthenticated)
+    
+    }
+
    const showNetInfo= async ()=> {
       const connectionInfo = await NetInfo.fetch();
       if (connectionInfo) {
@@ -439,6 +502,9 @@ const Main=(props)=>  {
    
     });
   },[])
+
+
+
  
 
   handleConnectivityChange = (connectionInfo) => {
@@ -510,4 +576,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(null, mapDispatchToProps)(Main);
+export default connect(mapStateToProps, mapDispatchToProps)(Main);

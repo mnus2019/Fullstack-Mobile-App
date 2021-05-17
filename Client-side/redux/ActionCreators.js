@@ -226,7 +226,7 @@ export const addComments = (comments) => ({
   payload: comments,
 });
 
-export const postComment = (locationId, rating,author, text) => (dispatch) => {
+export const postComment = (locationId, rating, author, text) => (dispatch) => {
   const newComment = {
     campsiteId:locationId,
     rating:rating,
@@ -234,7 +234,7 @@ export const postComment = (locationId, rating,author, text) => (dispatch) => {
     text: text
   
   };
-  newComment.date = new Date().toISOString();
+ // newComment.date = new Date().toISOString();
 
   
   return fetch(baseUrl + "comments", {
@@ -273,6 +273,7 @@ export const addComment = (comment) => ({
   type: ActionTypes.ADD_COMMENT,
   payload: comment,
 });
+
 
 
 
@@ -403,15 +404,14 @@ export const loginUser = creds => dispatch => {
           // If login was successful, set the token in local storage
           SecureStore.setItemAsync('token', response.token);
           SecureStore.setItemAsync('creds', JSON.stringify(creds));
-          Alert.alert("Alert", "Thank you for Login!!!" + response.token );
-        
-          // Dispatch the success action
-          // dispatch(fetchFavorites());
+         
           dispatch(receiveLogin(response));
+         
       } else {
           const error = new Error('Error ' + response.status);
           error.response = response;
           throw error;
+         
       }
   })
   .catch(error => dispatch(loginError(error.message)))
@@ -434,6 +434,31 @@ export const loginError = message => {
   return {
       type: ActionTypes.LOGIN_FAILURE,
       message
+  }
+}
+
+
+
+// Logs the user out
+export const logoutUser = () => (dispatch) => {
+  dispatch(requestLogout())
+
+  
+  SecureStore.deleteItemAsync('token');
+  SecureStore.deleteItemAsync('creds');
+  
+  dispatch(receiveLogout())
+}
+
+export const requestLogout = () => {
+  return {
+    type: ActionTypes.LOGOUT_REQUEST
+  }
+}
+
+export const receiveLogout = () => {
+  return {
+    type: ActionTypes.LOGOUT_SUCCESS
   }
 }
 
