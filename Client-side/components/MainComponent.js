@@ -6,7 +6,7 @@ import {
   Image,
   Text,
   ScrollView,
-  ToastAndroid,
+  ToastAndroid,Alert
 } from "react-native";
 import Home from "./HomeComponent";
 import OnlineShopping from "./OnlineShoppingComponent";
@@ -17,6 +17,7 @@ import SuiteShop from "./SuitesComponent";
 import ClotheShop from "./ClothesComponent";
 import MyCart from "./MyCartComponent";
 import LoginTab from "./LoginComponent";
+import LogoutTab from "./LogoutComponent";
 import RegisterTab from "./RegisterComponent";
 import LocationInfo from "./LocationInfoComponent";
 import Location from "./LocationComponent";
@@ -27,6 +28,7 @@ import {
   createDrawerNavigator,
   DrawerItems,
 } from "react-navigation";
+// import {useNavigation} from '@react-navigation/native';
 import NetInfo from "@react-native-community/netinfo";
 import SafeAreaView from "react-native-safe-area-view";
 import { connect } from "react-redux";
@@ -96,14 +98,7 @@ const HomeNavigator = createStackNavigator(
           iconStyle={styles.stackIcon}
           onPress={() => navigation.toggleDrawer()}
         />
-      ),  headerRight: (
-        <Icon
-        name="sign-out"
-          type="font-awesome"
-          iconStyle={styles.stackIcon}
-          onPress={() =>this.handleLogout()}
-        />
-      ),
+      ),  
     }),
   }
 );
@@ -127,14 +122,7 @@ const CartScreenNavigator = createStackNavigator(
           iconStyle={styles.stackIcon}
           onPress={() => navigation.toggleDrawer()}
         />
-      ),  headerRight: (
-        <Icon
-        name="sign-out"
-          type="font-awesome"
-          iconStyle={styles.stackIcon}
-          onPress={() =>this.handleLogout()}
-        />
-      ),
+      ),  
     }),
   }
 );
@@ -160,14 +148,7 @@ const AboutNavigator = createStackNavigator(
           iconStyle={styles.stackIcon}
           onPress={() => navigation.toggleDrawer()}
         />
-      ),  headerRight: (
-        <Icon
-        name="sign-out"
-          type="font-awesome"
-          iconStyle={styles.stackIcon}
-          onPress={() =>this.handleLogout()}
-        />
-      ),
+      ),  
     }),
   }
 );
@@ -183,14 +164,7 @@ const LocationNavigator = createStackNavigator(
             iconStyle={styles.stackIcon}
             onPress={() => navigation.toggleDrawer()}
           />
-        ),  headerRight: (
-          <Icon
-          name="sign-out"
-            type="font-awesome"
-            iconStyle={styles.stackIcon}
-            onPress={() =>this.handleLogout()}
-          />
-        ),
+        ),  
       }),
     },
     LocationInfo: { screen: LocationInfo },
@@ -228,14 +202,7 @@ const MemberNavigator = createStackNavigator(
           iconStyle={styles.stackIcon}
           onPress={() => navigation.toggleDrawer()}
         />
-      ),  headerRight: (
-        <Icon
-        name="sign-out"
-          type="font-awesome"
-          iconStyle={styles.stackIcon}
-          onPress={() =>this.handleLogout()}
-        />
-      ),
+      ),  
       
     }),
   }
@@ -254,14 +221,7 @@ const OnlineShoppingNavigator = createStackNavigator(
             onPress={() => navigation.toggleDrawer()}
           />
         ),
-        headerRight: (
-          <Icon
-          name="sign-out"
-            type="font-awesome"
-            iconStyle={styles.stackIcon}
-            onPress={() =>this.handleLogout()}
-          />
-        ),
+        
       }),
     },
     CoffeeShop: { screen: CoffeeShop },
@@ -295,6 +255,25 @@ const LoginNavigator = createStackNavigator(
       headerTitleStyle: {
         color: "#fff",
       },
+        
+    }),
+  }
+);
+
+
+const LogoutNavigator = createStackNavigator(
+  {
+    LogoutTab: { screen: LogoutTab },
+  },
+  {
+    navigationOptions: ({ navigation }) => ({
+      headerStyle: {
+        backgroundColor: '#90ee90',
+      },
+      headerTintColor: "#fff",
+      headerTitleStyle: {
+        color: "#fff",
+      },
       headerLeft: (
         <Icon
         name="align-justify"
@@ -307,6 +286,7 @@ const LoginNavigator = createStackNavigator(
     }),
   }
 );
+
 
 const RegisterNavigator = createStackNavigator(
   {
@@ -457,6 +437,19 @@ const MainNavigator = createDrawerNavigator(
         ),
       },
     },
+    Logout: {
+      screen: LogoutNavigator,
+      navigationOptions: {
+        drawerIcon: ({ tintColor }) => (
+          <Icon
+            name="sign-out"
+            type="font-awesome"
+            size={24}
+            color={tintColor}
+          />
+        ),
+      },
+    },
   },
   {
     drawerBackgroundColor: "green",
@@ -468,6 +461,8 @@ const MainNavigator = createDrawerNavigator(
   }
 );
 const Main=(props)=>  {
+ 
+ 
   useEffect(()=>{
     props.fetchCoffees();
     props.fetchSuites();
@@ -478,11 +473,7 @@ const Main=(props)=>  {
     props.fetchPartners();
 
 
-    handleLogout =async() =>{
-      await  props.logoutUser();
-      await  console.log(props.auth.isAuthenticated)
-    
-    }
+  
 
    const showNetInfo= async ()=> {
       const connectionInfo = await NetInfo.fetch();

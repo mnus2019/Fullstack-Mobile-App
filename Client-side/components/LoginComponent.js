@@ -47,13 +47,9 @@ class LoginTab extends Component {
     }
 
 
-    handleLogout =async() =>{
-      await  this.props.logoutUser();
-      await  console.log(this.props.auth.isAuthenticated)
+  
 
-    }
-
-     handleSubmit =async() =>{
+     handleLogin =async() =>{
          
        await this.props.loginUser({ username:this.state.username,       
         password:this.state.password}
@@ -66,7 +62,7 @@ class LoginTab extends Component {
                 username:" ",
                 password:" "
             })
-            Alert.alert("ALERT","\nLOGIN SUCCESS");
+            Alert.alert('Success!', 'user is logged in!');
           
           
             this.props.navigation.navigate("Home")
@@ -126,7 +122,7 @@ class LoginTab extends Component {
                 />
                 <View style={styles.formButton}>
                     <Button
-                        onPress={() =>{ this.handleSubmit();
+                        onPress={() =>{ this.handleLogin();
                             }
 
                           
@@ -144,26 +140,6 @@ class LoginTab extends Component {
                     />
                 </View>
 
-               
-                <View style={styles.formButton}>
-                    <Button
-                        onPress={() =>{ this.handleLogout();
-                            }
-
-                          
-                        }
-                        title='LogOut'
-                        icon={
-                            <Icon
-                                name='sign-out'
-                                type='font-awesome'
-                                color='#fff'
-                                iconStyle={{marginRight: 10}}
-                            />
-                        }
-                        buttonStyle={{backgroundColor: '#0000ff'}}
-                    />
-                </View>
 
                 <View style={styles.formButton}>
                     <Button
