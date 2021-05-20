@@ -301,14 +301,7 @@ const RegisterNavigator = createStackNavigator(
       headerTitleStyle: {
         color: "#fff",
       },
-      headerLeft: (
-        <Icon
-        name="align-justify"
-          type="font-awesome"
-          iconStyle={styles.stackIcon}
-          onPress={() => navigation.toggleDrawer()}
-        />
-      ),
+     
     }),
   }
 );

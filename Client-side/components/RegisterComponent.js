@@ -35,7 +35,7 @@ class RegisterTab extends Component {
         this.state = {
             username: '',
             password: '',
-            firstname: '',
+            firstname:'',
             lastname: '',
           
         };
@@ -106,9 +106,38 @@ class RegisterTab extends Component {
     }
 
 
-    handleRegister() {
+    handleRegister=async() =>{
+    const regex =/^(?=.*[A-Z].*[A-Z])(?=.*[!@#$&*])(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z].*[a-z]).{8,}$/;
+    const nameregex = /^([a-zA-Z]+\S)*[a-zA-Z].{3,}$/;
+    const usernameregex = /^(?=[a-zA-Z0-9._]{8,20}$)(?!.*[_.]{2})[^_.].*[^_.]$/;
+    const password = regex.test(this.state.password);
+    const firstNamevalue = nameregex.test(this.state.firstName);
+    const lastNamevalue =  nameregex.test(this.state.lastName);
+    const usernamevalue = usernameregex.test(this.state.username);
+        if (!password) {
+          Alert.alert("ALERT", `Your password should have at least one special character
+          two digits, two uppercase and three lowercase character & Length: 8+ ch-ers.        
+          Please enter correct password !!!`);
+          return;
+        }
+        if ( !lastNamevalue) {
+          Alert.alert("ALERT","Please Enter correct firstname !!!");
+          return;
+        }
+        if ( !firstNamevalue) {
+            Alert.alert("ALERT","Please Enter correct lastname !!!");
+            return;
+          }
+        if (!usernamevalue) {
+          Alert.alert("ALERT","Please Enter correct username !!!");
+          return;
+        }
+
+
         //console.log(JSON.stringify(this.state));
-        this.props.postRegister(this.state);
+       await this.props.postRegister(this.state);
+      
+       handleRemember=()=>{
         if (this.state.remember) {
             SecureStore.setItemAsync('userinfo', JSON.stringify(
                 {username: this.state.username, password: this.state.password}))
@@ -117,6 +146,9 @@ class RegisterTab extends Component {
             SecureStore.deleteItemAsync('userinfo')
                 .catch(error => console.log('Could not delete user info', error));
         }
+       }
+       await handleRemember;
+       await this.props.navigation.navigate("Home");
     }
 
     render() {

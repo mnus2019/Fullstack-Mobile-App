@@ -33,7 +33,7 @@ function Member(props){
   const [rating,setRating]=useState(5);
 
   handleForm = () => {
-    const regex = /^([a-zA-Z]+\s)*[a-zA-Z]+$/;
+    const regex = /^([a-zA-Z]+\S)*[a-zA-Z]+$/;
     const firstNamevalue = regex.test(firstName);
     const lastNamevalue = regex.test(lastName);
     if (firstName.length < 2 || !firstNamevalue) {
@@ -141,7 +141,7 @@ function Member(props){
             <Button
               onPress={() => {
                 navigate("Home");
-                  resetForm();
+                resetForm();
               }}
               color="#808080"
               title="Cancel"
