@@ -17,6 +17,7 @@ import SuiteShop from "./SuitesComponent";
 import ClotheShop from "./ClothesComponent";
 import MyCart from "./MyCartComponent";
 import LoginTab from "./LoginComponent";
+import PayCheckout from "./PaymentComponent";
 import LogoutTab from "./LogoutComponent";
 import RegisterTab from "./RegisterComponent";
 import LocationInfo from "./LocationInfoComponent";
@@ -62,21 +63,7 @@ const mapStateToProps = state => {
 
 
 
-const BottomNav = createBottomTabNavigator(
-  {
-      Login: MyCart,
-      Register: OnlineShopping
-  },
-  {
-      tabBarOptions: {
-          activeBackgroundColor: '#0000ff',
-          inactiveBackgroundColor: '#CEC8FF',
-          activeTintColor: '#fff',
-          inactiveTintColor: '#808080',
-          labelStyle: {fontSize: 16}
-      }
-  }
-);
+
 
 const HomeNavigator = createStackNavigator(
   {
@@ -103,11 +90,26 @@ const HomeNavigator = createStackNavigator(
   }
 );
 const CartScreenNavigator = createStackNavigator(
+
   {
-    MyCart: { screen: MyCart },
+    MyCart: {
+      screen: MyCart,
+      navigationOptions: ({ navigation }) => ({
+        headerLeft: (
+          <Icon
+          name="align-justify"
+            type="font-awesome"
+            iconStyle={styles.stackIcon}
+            onPress={() => navigation.toggleDrawer()}
+          />
+        ),  
+      }),
+    },
+    PayCheckout: { screen: PayCheckout },
   },
   {
-    navigationOptions: ({ navigation }) => ({
+    initialRouteName: "MyCart",
+    navigationOptions: {
       headerStyle: {
         backgroundColor: '#37dd50',
       },
@@ -115,16 +117,10 @@ const CartScreenNavigator = createStackNavigator(
       headerTitleStyle: {
         color: "#fff",
       },
-      headerLeft: (
-        <Icon
-        name="align-justify"
-          type="font-awesome"
-          iconStyle={styles.stackIcon}
-          onPress={() => navigation.toggleDrawer()}
-        />
-      ),  
-    }),
+    },
   }
+
+ 
 );
 
 
@@ -251,6 +247,7 @@ const LoginNavigator = createStackNavigator(
       headerStyle: {
         backgroundColor: '#90ee90',
       },
+      
       headerTintColor: "#fff",
       headerTitleStyle: {
         color: "#fff",
@@ -305,7 +302,21 @@ const RegisterNavigator = createStackNavigator(
     }),
   }
 );
-
+const BottomNavigator = createBottomTabNavigator(
+  {
+    Login: LoginNavigator,
+    Register: RegisterNavigator
+  },
+  {
+      tabBarOptions: {
+          activeBackgroundColor: '#0000ff',
+          inactiveBackgroundColor: '#CEC8FF',
+          activeTintColor: '#fff',
+          inactiveTintColor: '#808080',
+          labelStyle: {fontSize: 16}
+      }, 
+  }
+);
 
 const CustomDrawerContentComponent = (props) => (
   <ScrollView>
@@ -332,7 +343,7 @@ const CustomDrawerContentComponent = (props) => (
 const MainNavigator = createDrawerNavigator(
   {
     Login: {
-      screen: LoginNavigator,
+      screen: BottomNavigator,
       navigationOptions: {
         drawerIcon: ({ tintColor }) => (
           <Icon
@@ -344,8 +355,9 @@ const MainNavigator = createDrawerNavigator(
         ),
       },
     },
+   
     Register: {
-      screen: RegisterNavigator,
+      screen: BottomNavigator,
       navigationOptions: {
         drawerIcon: ({ tintColor }) => (
           <Icon
@@ -450,7 +462,7 @@ const MainNavigator = createDrawerNavigator(
   },
   {
     
-    contentComponent: BottomNav,
+    contentComponent: BottomNavigator,
   }
 );
 const Main=(props)=>  {

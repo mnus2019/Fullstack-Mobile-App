@@ -92,7 +92,7 @@ class MyCart extends Component {
       <View style={{ margin: 10 }}>
       <Button
         onPress={() => {
-          navigate("Checkout");
+          navigate("PayCheckout");
          
         }}
         color="#808080"
