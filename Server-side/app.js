@@ -12,6 +12,7 @@ var usersRouter = require("./routes/users");
 const coffeeRouter = require("./routes/coffeeRouter");
 const suiteRouter = require("./routes/suiteRouter");
 const locationRouter = require("./routes/locationRouter");
+const paymentRouter = require("./routes/paymentRouter");
 
 
 const memberRouter = require("./routes/memberRouter");
@@ -61,6 +62,7 @@ app.use("/locations", locationRouter);
 app.use("/feedback", memberRouter);
 app.use("/comments", commentRouter);
 app.use("/campsites", campsiteRouter);
+app.use("/", paymentRouter);
 
 
 

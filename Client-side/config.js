@@ -1,0 +1,2 @@
+export const PublishiableKey = "sk_test_51HZKUOLQorsKb9OTgjw6br1t9l2dE3aqWWPe5XDdwvGK4Oj19zlBJjzInsGPGxOzOjlI9X9DjozIf9S5PimthoBF00ZKwVIc28";
+  

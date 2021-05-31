@@ -1,5 +1,8 @@
+
+
 {
   "expo": {
+    
     "name": "Ecommerce",
     "slug": "react-native",
     "version": "1.0.0",
@@ -22,5 +25,6 @@
     "web": {
       "favicon": "./assets/favicon.png"
     }
+ 
   }
 }

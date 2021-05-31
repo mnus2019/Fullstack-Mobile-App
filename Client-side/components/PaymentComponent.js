@@ -1,67 +1,18 @@
-
-
-
 import React, {useState} from 'react';
 import axios from 'axios';
-// MUI Components
-// import Button from '@material-ui/core/Button';
-// import Card from '@material-ui/core/Card';
-// import CardContent from '@material-ui/core/CardContent';
-// import TextField from '@material-ui/core/TextField';
+import { CreditCardInput, LiteCreditCardInput } from "react-native-credit-card-input";
 import ShoppingCartIcon from './ShoppingCartIconComponent';
-import { Card } from "react-native-elements";
-import {
-    Text,
-    View,
-      Modal,
-      ModalHeader,
-      ModalBody,
-    Button,
-    StyleSheet,
-    ScrollView
-   
-  } from "react-native";
-
-// import { 
-  
-//   Modal,
-//   ModalHeader,
-//   ModalBody,
-  
-// } from "reactstrap";
-// stripe
+import {View,Button,ScrollView,Alert} from "react-native";
+import { Input,Card } from "react-native-elements"; 
 import {
   CardField,
   CardFieldInput,
+  useElements,
   useStripe,
 } from '@stripe/stripe-react-native';
 import { connect } from "react-redux";
-// Util imports
-// import {makeStyles} from '@material-ui/core/styles';
-// // Custom Components
-// import CardInput from './CardInput';
 
-const styles = StyleSheet.create({
-  root: {
-    maxWidth: 500,
-    margin: '35vh auto',
-    backgroundColor:'#A9A9a9'
-  },
-  content: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignContent: 'flex-start',
-  },
-  div: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignContent: 'flex-start',
-    justifyContent: 'space-between',
-  },
-  button: {
-    margin: '2em auto 1em',
-  },
-});
+
 
 
 
@@ -77,79 +28,78 @@ const mapStateToProps = (state) => {
 
 PayCheckout.navigationOptions = {
     title: "Payment",
-      headerRight:(
-        <ShoppingCartIcon/>
-      ),
+    headerRight:(
+      <ShoppingCartIcon/>
+    ),
+   
     };
 
 
 function PayCheckout(props) {
-  const classes = useStyles();
-  // State
+  
   const [email, setEmail] = useState('');
  
   const [amount, setAmount] = useState('');
  
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const[isModalfailed,setIsModalfailed]  = useState(false);
-  const [card, setCard] = useState<CardFieldInput.Details | null>(null);
+  const [card, setCard] = useState("");
+  const { confirmPayment, handleCardAction } = useStripe();
+
+ 
   const stripe = useStripe();
-  const elements = CardFieldInput;
-
-
-  const CartTotal=(props)=>{
-    let sum = 0;
-    for(let key in props.cartItems.cartItems){
-          sum = sum + (props.cart[key].product.price * props.cart[key].qty);
-    }
-    setAmount(sum);
-    return sum;
-  }
- const toggleModal=()=> {
-    setIsModalOpen(!isModalOpen);
-  }
-
-  const toggleModalFailed=()=> {
-    setIsModalfailed(!isModalfailed);
-  }
  
 
-  const handleSubmit = async (props) => {
-    if (!stripe || !elements) {
+
+//   const CartTotal=()=>{
+//     let sum = 0;
+//     for(let key in props.cartItems.cartItems){
+//           sum = sum + (props.cart[key].product.price * props.cart[key].qty);
+//     }
+//     setAmount(sum);
+//     return sum;
+//   }
+
+//   }
+ 
+
+  const handleSubmit = async () => {
+    if (!stripe || !card ) {
      
       return;
     }
         
-    CartTotal(props);
+   
 
     const res = await axios.post('http://192.168.254.16:3000/pay', {email: email,
-      amount:amount,  
-     
+    amount:amount     
      });
 
     const clientSecret = res.data['client_secret'];
 
-    const result = await stripe.confirmCardPayment(clientSecret, {
-      payment_method: {
-        card: elements.getElement(CardElement),
+    const result = await stripe.handleCardAction(clientSecret, {      
+     
+     payment_method: {
+      card: card.values,
+        
         billing_details: {
          
           email: email        
-          
+         
         },
       },
     });
 
     if (result.error) {
       // Show error to your customer (e.g., insufficient funds)
+      console.log("error on payment");
       console.log(result.error.message);
-      toggleModalFailed();
+      Alert.alert("ERROR", `ERROR ON PAYMEN.\n${card.values.number}\n${card.status.number}\nTHANK YOUT!!!`);
     } else {
       // The payment has been processed!
       if (result.paymentIntent.status === 'succeeded') {
         console.log('Your Payment was successfull!');
         console.log(result);
-        toggleModal();
+        Alert.alert("SUCCESS", `YOUR PAYMENT WAS SUCCESSFULL.\n${card.values.number}\n${card.status.number}\nTHANK YOU !!!`);
+       
       
       }
     }
@@ -157,52 +107,53 @@ function PayCheckout(props) {
 
   return (
    <ScrollView>
-     <CardField
-      postalCodeEnabled={true}
-      placeholder={{
-        number: '4242 4242 4242 4242',
-      }}
-      cardStyle={{
-        backgroundColor: '#FFFFFF',
-        textColor: '#000000',
-      }}
-      style={{
-        width: '100%',
-        height: 50,
-        marginVertical: 30,
-      }}
-      onCardChange={(cardDetails) => {
-        setCard(cardDetails);
-      }}
-      onFocus={(focusedField) => {
-        console.log('focusField', focusedField);
-      }}
-    />
-      <Modal isOpen={isModalOpen} toggle={toggleModal}>
-         
-            <ModalHeader className="bg-info" toggle={toggleModal}>PAYMENT</ModalHeader>
+   <Card>
 
-            <ModalBody>
-              <h1>  THANK YOU ! YOU HAVE SUCCESSFULLY PAID.</h1>
-         
-          <p> Order placed! You will receive an email confirmation.</p>
-            </ModalBody>
+   <CreditCardInput onChange={this._onChange= form => setCard(form)} />
+     
+   <Input
+            style={{ height: 40, borderColor: "blue", borderWidth: 1 }}
+            placeholder="Email"
+           
+            leftIconContainerStyle={{ paddingRight: 10 }}
+            onChangeText={(text) => setEmail( text )}
+            value={email}
+            maxLength={16}
+          />
+          <Input
+            style={{ height: 40, borderColor: "blue", borderWidth: 1 }}
+            placeholder="Amount"
           
-        </Modal>
-        <Modal isOpen={isModalfailed} toggle={toggleModalFailed}>
-         
-         <ModalHeader className="bg-info" toggle={toggleModalFailed}>PAYMENT</ModalHeader>
+            leftIconContainerStyle={{ paddingRight: 10 }}
+            onChangeText={(text) => setAmount( text )}
+            value={amount}
+            maxLength={16}
+          />
 
-         <ModalBody>
-       
-           <h1> SORRY ! YOUR CARD HAS INSUFFICIENT FUNDS.</h1>
-           <p>
-              Order canceled -- continue to shop around and checkout when you're ready.
+        
+
          
-           </p>
-         </ModalBody>
-       
-     </Modal>
+          <View style={{ margin: 10 }}>
+            <Button
+              title="Submit"
+              color="#5637DD"
+              onPress={() => {
+                handleSubmit();
+               
+              }}
+            />
+          </View>
+          <View style={{ margin: 10 }}>
+             <Button
+                  onPress={() => props.navigation.navigate("MyCart")
+                }
+              color="#808080"
+              title="Cancel"
+           
+            /> 
+          </View>
+      
+   </Card>
   
    </ScrollView>
     

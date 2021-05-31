@@ -4,7 +4,7 @@ import { ListItem } from "react-native-elements";
 import * as Animatable from "react-native-animatable";
 import Swipeout from "react-native-swipeout";
 import { baseUrl } from "../shared/baseUrl";
-import { deleteItemFromCart } from "../redux/ActionCreators";
+import { deleteItemFromCart,addItemToCart } from "../redux/ActionCreators";
 
 import { connect } from "react-redux";
 
@@ -15,6 +15,7 @@ const mapStateToProps = (state) => {
   };
 };
 const mapDispatchToProps = {
+  addItemToCart: (item) => addItemToCart(item),
   deleteItemFromCart: (item) => deleteItemFromCart(item),
 };
 
@@ -57,9 +58,37 @@ class MyCart extends Component {
         },
       ];
 
+
+      const leftButton = [
+        {
+          text: "Add",
+          type: "Add",
+          onPress: () => {
+            Alert.alert(
+              "Delete Your Cart Item",
+              "Are you sure you wish to Add the cart item " +
+                item.product.name +
+                "?",
+              [
+                {
+                  text: "Add",
+                  onPress: () => console.log(item.name + "Not Added"),
+                  style: " add",
+                },
+                {
+                  text: "OK",
+                  onPress: () => this.props.addItemToCart(item),
+                },
+              ],
+              { cancelable: false }
+            );
+          },
+        },
+      ];
+
       return (
        
-          <Swipeout left={rightButton} autoClose={true}>
+          <Swipeout left={rightButton} right={leftButton} autoClose={true}>
           <Animatable.View animation="fadeInRightBig" duration={2000}>
             <ListItem
             
