@@ -28,6 +28,11 @@ class MyCart extends Component {
     this.props.deleteItemFromCart(item);
   };
 
+  addCart = (item) => {
+    this.props.addItemToCart(item);
+  };
+
+
   render() {
     const { navigate } = this.props.navigation;
     const renderFavoriteItem = ({ item }) => {
@@ -44,7 +49,7 @@ class MyCart extends Component {
               [
                 {
                   text: "Cancel",
-                  onPress: () => console.log(item.name + "Not Deleted"),
+                  onPress: () => console.log(item.name +""+ "Not Deleted"),
                   style: " cancel",
                 },
                 {
@@ -69,15 +74,15 @@ class MyCart extends Component {
               "Are you sure you wish to Add the cart item " +
                 item.product.name +
                 "?",
-              [
-                {
-                  text: "Add",
-                  onPress: () => console.log(item.name + "Not Added"),
-                  style: " add",
-                },
+              [ 
+                 {
+                text: "Cancel",
+                onPress: () => console.log(item.name + "Not Deleted"),
+                style: " cancel",
+              },
                 {
                   text: "OK",
-                  onPress: () => this.props.addItemToCart(item),
+                  onPress: () => this.addCart(item),
                 },
               ],
               { cancelable: false }
@@ -88,7 +93,7 @@ class MyCart extends Component {
 
       return (
        
-          <Swipeout left={rightButton} right={leftButton} autoClose={true}>
+          <Swipeout left={rightButton}  autoClose={true}>
           <Animatable.View animation="fadeInRightBig" duration={2000}>
             <ListItem
             

@@ -92,7 +92,7 @@ function PayCheckout(props) {
       // Show error to your customer (e.g., insufficient funds)
       console.log("error on payment");
       console.log(result.error.message);
-      Alert.alert("ERROR", `ERROR ON PAYMEN.\n${card.values.number}\n${card.status.number}\nTHANK YOUT!!!`);
+      Alert.alert("ERROR", `ERROR ON PAYMEN.\n${card.values.number}\n${card.status.number}\nTHANK YOU!!!`);
     } else {
       // The payment has been processed!
       if (result.paymentIntent.status === 'succeeded') {
